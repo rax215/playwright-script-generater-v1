@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playwright Code Generator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-width: 400px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+        h2 {
+            margin: 0;
+            font-size: 16px;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        .container {
+            padding: 8px 12px;
+        }
+        .prompt-textarea {
+            width: 100%;
+            height: 80px;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            margin-bottom: 8px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            min-width: 80px;
+        }
+        .clear-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .clear-btn:hover {
+            background-color: #da190b;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .loading {
+            text-align: center;
+            margin: 8px 0;
+            font-size: 13px;
+            display: none;
+        }
+        .response-container {
+            display: none;
+            margin-top: 8px;
+        }
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        .copy-btn {
+            background-color: #2196F3;
+            color: white;
+        }
+        .copy-btn:hover {
+            background-color: #0b7dda;
+        }
+        .response-code {
+            width: 100%;
+            max-height: 200px;
+            padding: 8px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-y: auto;
+            margin: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Playwright Code Generator</h2>
+        <button class="close-btn">&times;</button>
+    </div>
+    <div class="container">
+        <textarea id="promptInput" class="prompt-textarea" placeholder="Enter your prompt message here..."></textarea>
+        <div class="button-group">
+            <button id="clearBtn" class="btn clear-btn">Clear</button>
+            <button id="submitSource" class="btn submit-btn">Submit</button>
+        </div>
+        
+        <div class="loading" id="loading">
+            Generating code...
+        </div>
+
+        <div class="response-container" id="responseContainer">
+            <div class="response-header">
+                <span>Generated Code:</span>
+                <button id="copyBtn" class="btn copy-btn">Copy</button>
+            </div>
+            <pre class="response-code" id="responseCode"></pre>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
