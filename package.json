@@ -1,7 +1,7 @@
 {
-  "name": "webpage-component-scanner",
+  "name": "playwright-script-generater",
   "version": "1.0.0",
-  "description": "A program to scan webpage components using Playwright",
+  "description": "A program to generate playwright script for a webpage",
   "main": "index.js",
   "scripts": {
     "start": "node server.js"
