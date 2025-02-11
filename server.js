@@ -26,17 +26,26 @@ app.post('/generate', async (req, res) => {
 // Add HTML source submission endpoint
 app.post('/submit-source', async (req, res) => {
     try {
-        const { prompt, html } = req.body;
-        if (!prompt || !html) {
-            return res.status(400).json({ error: 'Both prompt and HTML source are required' });
+        const { prompt, html, includeHtml } = req.body;
+        console.log('Received request:', { prompt, html, includeHtml });
+        if (!prompt) {
+            return res.status(400).json({ error: 'Prompt is required' });
+        }
+
+        if (includeHtml && !html) {
+            return res.status(400).json({ error: 'HTML source is required when includeHtml is true' });
         }
 
         // Here you can process both the prompt and HTML source as needed
         console.log('Received prompt:', prompt);
-        //console.log('Received HTML source:', html.substring(0, 100) + '...');
+        if (includeHtml) {
+            console.log('Received HTML source:', html.substring(0, 100) + '...');
+        } else {
+            console.log('HTML source not included');
+        }
 
-        // Process the input and generate code (replace this with your actual code generation logic)
-        const generatedCode = await generatePlaywrightCode(prompt, html);
+        // Process the input and generate code
+        const generatedCode = await generatePlaywrightCode(prompt, includeHtml,html);
 
         res.json({ 
             success: true, 
@@ -49,12 +58,18 @@ app.post('/submit-source', async (req, res) => {
     }
 });
 
-// Helper function to generate Playwright code (replace with your actual implementation)
-async function generatePlaywrightCode(prompt, html) {
-   // const gemini = new GeminiAPI();
-const playwrightScript = await gemini.analyzeHtml(html, prompt);
-console.log('\nPlaywright Script Generated');
-return playwrightScript;
+// Helper function to generate Playwright code
+async function generatePlaywrightCode(prompt, includeHtml, html) {
+    if(includeHtml){
+        const playwrightScript = await gemini.analyzeHtml(html, prompt);
+        console.log('\nPlaywright Script Generated');
+        return playwrightScript;
+    }else{
+        const response = await gemini.generateSummary(prompt);
+        console.log('\nModel response');
+        return response;
+    }
+    
 }
 
 app.listen(port, () => {
