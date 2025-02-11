@@ -27,7 +27,7 @@ app.post('/generate', async (req, res) => {
 app.post('/submit-source', async (req, res) => {
     try {
         const { prompt, html, includeHtml } = req.body;
-        console.log('Received request:', { prompt, html, includeHtml });
+        //console.log('Received request:', { prompt, html, includeHtml });
         if (!prompt) {
             return res.status(400).json({ error: 'Prompt is required' });
         }
@@ -39,7 +39,7 @@ app.post('/submit-source', async (req, res) => {
         // Here you can process both the prompt and HTML source as needed
         console.log('Received prompt:', prompt);
         if (includeHtml) {
-            console.log('Received HTML source:', html.substring(0, 100) + '...');
+            console.log('Received HTML source');
         } else {
             console.log('HTML source not included');
         }
