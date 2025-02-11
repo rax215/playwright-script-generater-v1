@@ -50,6 +50,29 @@
         .checkbox-container input[type="checkbox"] {
             margin-right: 6px;
         }
+               .settings-container {
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .input-group label {
+            font-size: 12px;
+            color: #666;
+        }
+        select, input[type="text"] {
+            padding: 4px 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+            width: 100%;
+            box-sizing: border-box;
+        }
         .button-group {
             display: flex;
             justify-content: center;
@@ -125,6 +148,20 @@
         <button class="close-btn">&times;</button>
     </div>
     <div class="container">
+        <div class="settings-container">
+            <div class="input-group">
+                <label for="modelSelect">AI Model</label>
+                <select id="modelSelect">
+                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                    <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+                    <option value="gemini-pro">Gemini Pro</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="apiKey">API Key</label>
+                <input type="text" id="apiKey" placeholder="Enter API key">
+            </div>
+        </div>
         <textarea id="promptInput" class="prompt-textarea" placeholder="Enter your prompt message here..."></textarea>
         <div class="checkbox-container">
             <input type="checkbox" id="includeHtml" checked>
