@@ -8,12 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const responseContainer = document.getElementById('responseContainer');
     const responseCode = document.getElementById('responseCode');
     const copyBtn = document.getElementById('copyBtn');
+    const includeHtmlCheckbox = document.getElementById('includeHtml');
 
     // Function to clear the form
     function clearForm() {
         promptInput.value = '';
         responseContainer.style.display = 'none';
         responseCode.textContent = '';
+        includeHtmlCheckbox.checked = true; // Reset checkbox to default checked state
         promptInput.focus();
     }
 
@@ -32,16 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
             loading.style.display = 'block';
             responseContainer.style.display = 'none';
 
-            // Get the HTML source from current tab
-            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-            const result = await chrome.scripting.executeScript({
-                target: { tabId: tab.id },
-                function: () => document.documentElement.outerHTML
-            });
-            
-            const sourceCode = result[0].result;
+            // Get the HTML source only if checkbox is checked
+            let sourceCode = '';
+            if (includeHtmlCheckbox.checked) {
+                const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+                const result = await chrome.scripting.executeScript({
+                    target: { tabId: tab.id },
+                    function: () => document.documentElement.outerHTML
+                });
+                sourceCode = result[0].result;
+            }
 
-            // Submit both prompt and source code
+            // Submit prompt and optionally HTML source
             const response = await fetch('http://localhost:3000/submit-source', {
                 method: 'POST',
                 headers: {
@@ -49,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ 
                     prompt: prompt,
-                    html: sourceCode 
+                    html: sourceCode,
+                    includeHtml: includeHtmlCheckbox.checked
                 })
             });
 
