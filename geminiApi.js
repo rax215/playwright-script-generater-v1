@@ -1,12 +1,12 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 class GeminiAPI {
-    constructor(apiKey) {
+    constructor(apiKey, model) {
         if (!apiKey) {
             throw new Error('API key is required');
         }
         this.genAI = new GoogleGenerativeAI(apiKey);
-        this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        this.model = this.genAI.getGenerativeModel({ model: model });
         this.chat = this.model.startChat({
             history: [{
               role: "user",
