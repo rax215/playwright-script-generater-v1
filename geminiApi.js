@@ -7,12 +7,22 @@ class GeminiAPI {
         }
         this.genAI = new GoogleGenerativeAI(apiKey);
         this.model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        this.chat = this.model.startChat({
+            history: [{
+              role: "user",
+              parts: [{ text: "Hello" }],
+            },
+            {
+              role: "model",
+              parts: [{ text: "What can I help you with?" }],
+            }],
+          });
     }
 
     async analyzeHtml(htmlContent, text) {
         try {
             const prompt = text +' ' + htmlContent;
-            const result = await this.model.generateContent(prompt);
+            const result = await this.chat.sendMessage(prompt);
             const response = await result.response;
             let script = response.text();
             //console.log('script:', script);
