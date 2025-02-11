@@ -41,6 +41,15 @@
             box-sizing: border-box;
             margin-bottom: 8px;
         }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .checkbox-container input[type="checkbox"] {
+            margin-right: 6px;
+        }
         .button-group {
             display: flex;
             justify-content: center;
@@ -117,18 +126,22 @@
     </div>
     <div class="container">
         <textarea id="promptInput" class="prompt-textarea" placeholder="Enter your prompt message here..."></textarea>
+        <div class="checkbox-container">
+            <input type="checkbox" id="includeHtml" checked>
+            <label for="includeHtml">Check to generate Playwright code</label>
+        </div>
         <div class="button-group">
             <button id="clearBtn" class="btn clear-btn">Clear</button>
             <button id="submitSource" class="btn submit-btn">Submit</button>
         </div>
         
         <div class="loading" id="loading">
-            Generating code...
+            Executing...
         </div>
 
         <div class="response-container" id="responseContainer">
             <div class="response-header">
-                <span>Generated Code:</span>
+                <span>Model response:</span>
                 <button id="copyBtn" class="btn copy-btn">Copy</button>
             </div>
             <pre class="response-code" id="responseCode"></pre>
