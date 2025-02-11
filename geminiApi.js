@@ -41,14 +41,10 @@ class GeminiAPI {
 
     async generateSummary(text) {
         try {
-            const prompt = `Summarize the following content: ${text}`;
-            const result = await this.model.generateContent(prompt);
+            const prompt = text;
+            const result = await this.chat.sendMessage(prompt);
             const response = await result.response;
-            let script = response.text()
-            return script.substring(
-                script.indexOf("```") + 3, 
-                script.lastIndexOf("```")
-            );
+            return response.text()
         } catch (error) {
             console.error('Error generating summary:', error);
             throw error;
