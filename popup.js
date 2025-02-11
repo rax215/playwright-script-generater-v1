@@ -9,6 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const responseCode = document.getElementById('responseCode');
     const copyBtn = document.getElementById('copyBtn');
     const includeHtmlCheckbox = document.getElementById('includeHtml');
+        const modelSelect = document.getElementById('modelSelect');
+    const apiKeyInput = document.getElementById('apiKey');
+
+    // Try to load saved API key from storage
+    chrome.storage.local.get(['apiKey'], function(result) {
+        if (result.apiKey) {
+            apiKeyInput.value = result.apiKey;
+        }
+    });
+
+    // Save API key when it changes
+    apiKeyInput.addEventListener('change', function() {
+        chrome.storage.local.set({ apiKey: apiKeyInput.value });
+    });
 
     // Function to clear the form
     function clearForm() {
@@ -23,8 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
     async function getAndSubmitSource() {
         try {
             const prompt = promptInput.value.trim();
+            const apiKey = apiKeyInput.value.trim();
             if (!prompt) {
                 alert('Please enter a prompt message');
+                return;
+            }
+
+            if (!apiKey) {
+                alert('Please enter an API key');
                 return;
             }
 
@@ -54,7 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ 
                     prompt: prompt,
                     html: sourceCode,
-                    includeHtml: includeHtmlCheckbox.checked
+                    includeHtml: includeHtmlCheckbox.checked,
+                    model: modelSelect.value,
+                    apiKey: apiKey
                 })
             });
 
