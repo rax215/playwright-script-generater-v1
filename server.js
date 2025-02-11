@@ -12,17 +12,6 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.post('/generate', async (req, res) => {
-    try {
-        const { url, prompt } = req.body;
-        const result = await scanWebPage(url, prompt);
-        res.json({ success: true, result });
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
 // Add HTML source submission endpoint
 app.post('/submit-source', async (req, res) => {
     try {
